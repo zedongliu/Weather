@@ -9,13 +9,15 @@
    <RelativeLayout
        android:id="@+id/title_relative"
        android:layout_width="match_parent"
-       android:layout_height="45dp"
+       android:layout_height="35dp"
+       android:layout_gravity="center"
        android:background="#000000">
 
        <ImageView
            android:id="@+id/title_city_manager"
            android:layout_width="45dp"
-           android:layout_height="45dp"
+
+           android:layout_height="35dp"
            android:src="@drawable/title_city_manager" />
 
        <TextView
@@ -30,23 +32,23 @@
 
        <ImageView
            android:id="@+id/title_city_locate"
-           android:layout_height="45.0dp"
+           android:layout_height="35.0dp"
            android:layout_width="45.0dp"
-           android:layout_toLeftOf="@id/title_city_update"
+           android:layout_toLeftOf="@+id/title_city_update"
            android:src="@drawable/title_city_locate">
        </ImageView>
        <ImageView
            android:id="@+id/title_city_update"
-           android:layout_height="45.0dp"
+           android:layout_height="35.0dp"
            android:layout_width="45.0dp"
 
-           android:layout_toLeftOf="@id/title_city_share"
+           android:layout_toLeftOf="@+id/title_city_share"
 
            android:src="@drawable/title_city_update">
        </ImageView>
        <ImageView
            android:id="@+id/title_city_share"
-           android:layout_height="45.0dp"
+           android:layout_height="35.0dp"
            android:layout_width="45.0dp"
            android:layout_alignParentRight="true"
            android:src="@drawable/title_city_share">
@@ -143,7 +145,7 @@
             </LinearLayout>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_below="@+id/todayinfo1_relative"
+            android:layout_below="@id/todayinfo1_relative"
             android:id="@+id/todayinfo2_linear1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -157,8 +159,9 @@
 
                 <ImageView
                     android:id="@+id/todayinfo2_weatherStatusImg"
-                    android:layout_width="155dp"
-                    android:layout_height="128dp"
+                    android:layout_width="150dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="10dp"
                     android:src="@drawable/weather_qing"/>
             </LinearLayout>
 
@@ -167,7 +170,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_toRightOf="@+id/todayinfo2_linear1">
+                android:layout_toRightOf="@id/todayinfo2_linear1">
 
                 <TextView
                     android:layout_width="wrap_content"
