@@ -2,6 +2,8 @@ package com.example.ldhns.weather;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.util.Log;
 import android.app.Activity;
@@ -13,12 +15,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    private  ImageView UpdateBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        UpdateBtn = (ImageView)findViewById(R.id.title_city_update);
+        UpdateBtn.setOnClickListener(this);
 
         //检查网络连接状态
         if (CheckNet.getNetState(this) == CheckNet.NET_NONE) {
@@ -27,6 +32,13 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d("WEATHER", "已连接网络");
             Toast.makeText(MainActivity.this, "已连接网络", Toast.LENGTH_LONG).show();
+            getWeatherDatafromNet("101010100");
+        }
+    }
+
+    @Override
+    public void onClick(View v){
+        if(v.getId() == R.id.title_city_update){
             getWeatherDatafromNet("101010100");
         }
     }
