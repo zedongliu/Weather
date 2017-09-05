@@ -25,11 +25,43 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     //title
-    private  ImageView UpdateBtn;
-
+    private ImageView UpdateBtn;
+    private ImageView SelectCityBtn;
     //todayweather
     private TextView cityT,timeT,humidityT,weekT,pmDataT,pmQualityT,temperatureT,climateT,windT,cityNameT;
-    private ImageView weatherStateImg,pmStateImg;
+    private ImageView PM25Img,weatherImg;
+
+    void initView(){
+        //title
+        cityNameT = (TextView)findViewById(R.id.title_city_name);
+
+        //today weather
+        cityT =(TextView)findViewById(R.id.todayinfo1_cityName);
+        cityT = (TextView)findViewById(R.id.todayinfo1_cityName);
+        timeT = (TextView)findViewById(R.id.todayinfo1_updateTime);
+        humidityT = (TextView)findViewById(R.id.todayinfo1_humidity);
+        weekT = (TextView)findViewById(R.id.todayinfo2_week);
+        pmDataT = (TextView)findViewById(R.id.todayinfo1_pm25);
+        pmQualityT = (TextView)findViewById(R.id.todayinfo1_pm25status);
+        temperatureT = (TextView)findViewById(R.id.todayinfo2_temperature);
+        climateT = (TextView)findViewById(R.id.todayinfo2_weatherState);
+        windT = (TextView)findViewById(R.id.todayinfo2_wind);
+
+        weatherImg = (ImageView)findViewById(R.id.todayinfo2_weatherStatusImg);
+        PM25Img = (ImageView)findViewById(R.id.todayinfo1_pm25img);
+
+        cityNameT.setText("N/A");
+
+        cityT.setText("N/A");
+        timeT.setText("N/A");
+        humidityT.setText("N/A");
+        weekT.setText("N/A");
+        pmDataT.setText("N/A");
+        pmQualityT.setText("N/A");
+        temperatureT.setText("N/A");
+        climateT.setText("N/A");
+        windT.setText("N/A");
+    }
 
     private Handler mHandler = new Handler(){
         public void handlerMessage(android.os.Message message){
@@ -69,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v){
         if(v.getId() == R.id.title_city_update){
-            getWeatherDatafromNet("101010100");
+            getWeatherDatafromNet("101190201");
             updateTodayWeather(todayWeather);
         }
     }
@@ -210,37 +242,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return todayWeather;
     }
 
-    void initView(){
-        //title
-        cityNameT = (TextView)findViewById(R.id.title_city_name);
 
-        //today weather
-        cityT =(TextView)findViewById(R.id.todayinfo1_cityName);
-        cityT = (TextView)findViewById(R.id.todayinfo1_cityName);
-        timeT = (TextView)findViewById(R.id.todayinfo1_updateTime);
-        humidityT = (TextView)findViewById(R.id.todayinfo1_humidity);
-        weekT = (TextView)findViewById(R.id.todayinfo2_week);
-        pmDataT = (TextView)findViewById(R.id.todayinfo1_pm25);
-        pmQualityT = (TextView)findViewById(R.id.todayinfo1_pm25status);
-        temperatureT = (TextView)findViewById(R.id.todayinfo2_temperature);
-        climateT = (TextView)findViewById(R.id.todayinfo2_weatherState);
-        windT = (TextView)findViewById(R.id.todayinfo2_wind);
-
-        weatherStateImg = (ImageView)findViewById(R.id.todayinfo2_weatherStatusImg);
-        pmStateImg = (ImageView)findViewById(R.id.todayinfo1_pm25img);
-
-        cityNameT.setText("N/A");
-
-        cityT.setText("N/A");
-        timeT.setText("N/A");
-        humidityT.setText("N/A");
-        weekT.setText("N/A");
-        pmDataT.setText("N/A");
-        pmQualityT.setText("N/A");
-        temperatureT.setText("N/A");
-        climateT.setText("N/A");
-        windT.setText("N/A");
-    }
 
     void updateTodayWeather(TodayWeather todayWeather){
         cityNameT.setText(todayWeather.getCity()+"天气");
@@ -253,6 +255,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         temperatureT.setText(todayWeather.getHigh()+"~"+todayWeather.getLow());
         climateT.setText(todayWeather.getType());
         windT.setText("风力:"+todayWeather.getFengli());
+
+
+        
         Toast.makeText(MainActivity.this,"更新成功",Toast.LENGTH_SHORT).show();
     }
 
