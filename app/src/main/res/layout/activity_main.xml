@@ -10,14 +10,13 @@
        android:id="@+id/title_relative"
        android:layout_width="match_parent"
        android:layout_height="45dp"
-       android:layout_gravity="center"
        android:background="#000000">
 
        <ImageView
            android:id="@+id/title_city_manager"
            android:layout_width="45dp"
-
-           android:layout_height="35dp"
+           android:layout_centerVertical="true"
+           android:layout_height="30dp"
            android:src="@drawable/title_city_manager" />
 
        <TextView
@@ -33,24 +32,26 @@
 
        <ImageView
            android:id="@+id/title_city_locate"
-           android:layout_height="35.0dp"
+           android:layout_height="30.0dp"
            android:layout_width="45.0dp"
+           android:layout_centerVertical="true"
            android:layout_toLeftOf="@+id/title_city_update"
            android:src="@drawable/title_city_locate">
        </ImageView>
        <ImageView
            android:id="@+id/title_city_update"
-           android:layout_height="35.0dp"
+           android:layout_height="30.0dp"
            android:layout_width="45.0dp"
-
+           android:layout_centerVertical="true"
            android:layout_toLeftOf="@+id/title_city_share"
 
            android:src="@drawable/title_city_update">
        </ImageView>
        <ImageView
            android:id="@+id/title_city_share"
-           android:layout_height="35.0dp"
+           android:layout_height="30.0dp"
            android:layout_width="45.0dp"
+           android:layout_centerVertical="true"
            android:layout_alignParentRight="true"
            android:src="@drawable/title_city_share">
        </ImageView>
@@ -60,7 +61,7 @@
 
         android:id="@+id/today_relative"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/title_relative"
         android:background="@drawable/main_background">
 

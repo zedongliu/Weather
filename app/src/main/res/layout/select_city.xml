@@ -6,21 +6,19 @@
     android:background="#FFFFFF">
 
     <RelativeLayout
+        android:id="@+id/title_selectCity_title"
         android:layout_width="fill_parent"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:background="#000000">
 
         <ImageView
             android:id="@+id/title_selectCity_back"
             android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/selectcity_bar_back"/>
 
-        <ImageView
-            android:layout_width="1dp"
-            android:layout_height="30dp"
-            android:layout_toRightOf="@+id/title_selectCity_back"
-            android:background="#FFFFFF"/>
+
 
         <TextView
             android:id="@+id/title_selectCity_name"
@@ -31,6 +29,19 @@
             android:textSize="25sp"
             android:gravity="center"
             />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@+id/title_selectCity_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/selectcity_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            ></ListView>
 
     </RelativeLayout>
 
