@@ -3,13 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    >
+
 
     <RelativeLayout
         android:id="@+id/title_selectCity_title"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
-        android:background="#000000">
+        android:background="#000000"
+        >
 
         <ImageView
             android:id="@+id/title_selectCity_back"
@@ -19,7 +22,6 @@
             android:src="@drawable/selectcity_bar_back"/>
 
 
-
         <TextView
             android:id="@+id/title_selectCity_name"
             android:layout_width="fill_parent"
@@ -27,21 +29,65 @@
             android:text="当前城市：北京"
             android:textColor="#FFFFFF"
             android:textSize="25sp"
-            android:gravity="center"
-            />
+            android:gravity="center" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/selectcity_search_buttonrela">
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/selectcity_search"/>
+
+            <EditText
+                android:id="@+id/selectcity_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="搜索城市(中文)"
+
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:paddingLeft="35dp"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+
+            android:id="@+id/selectcity_search_buttonrela"
+            android:layout_width="80dp"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true">
+            <Button
+                android:id="@+id/selectcity_search_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="搜索"/>
+
+        </RelativeLayout>
     </RelativeLayout>
+
+
+
+
+
+
+
 
     <RelativeLayout
         android:layout_below="@+id/title_selectCity_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <ListView
-            android:id="@+id/selectcity_lv"
+            android:id="@+id/selectcity_listview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            ></ListView>
+            android:divider="#000000"
+            android:dividerHeight="1dp"
+            android:layout_height="wrap_content">
+        </ListView>
 
     </RelativeLayout>
 

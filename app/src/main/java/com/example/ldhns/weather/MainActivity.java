@@ -7,7 +7,9 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.util.Log;
@@ -25,6 +27,8 @@ import java.net.URL;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    private String updateCityCode;
+    TodayWeather todayWeather = null;
     //title
     private ImageView UpdateBtn;
     private ImageView SelectCityBtn;
@@ -76,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
-    TodayWeather todayWeather = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +93,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SelectCityBtn = (ImageView)findViewById(R.id.title_city_manager);
         SelectCityBtn.setOnClickListener(this);
 
+
+
+        updateCityCode = getIntent().getStringExtra("citycode");
+        if(updateCityCode!="-1"){
+            getWeatherDatafromNet(updateCityCode);
+
+        }
         initView();
 
         //检查网络连接状态
@@ -98,14 +109,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             Log.d("WEATHER", "已连接网络");
             Toast.makeText(MainActivity.this, "已连接网络", Toast.LENGTH_LONG).show();
-            getWeatherDatafromNet("101010100");
+            getWeatherDatafromNet(updateCityCode);
+
         }
     }
 
     @Override
     public void onClick(View v){
         if(v.getId() == R.id.title_city_update){
-            getWeatherDatafromNet("101190201");
+            getWeatherDatafromNet(updateCityCode);
             updateTodayWeather(todayWeather);
         }
         if(v.getId() == R.id.title_city_manager){
@@ -154,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private TodayWeather parseXML(String xmlData) {
-        TodayWeather todayWeather = null;
+       // TodayWeather todayWeather = null;
 
         int fengliCount = 0;
         int fengxiangCount = 0;
