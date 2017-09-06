@@ -2,11 +2,36 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="选择城市布局"/>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:background="#000000">
+
+        <ImageView
+            android:id="@+id/title_selectCity_back"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/selectcity_bar_back"/>
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:layout_toRightOf="@+id/title_selectCity_back"
+            android:background="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/title_selectCity_name"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="当前城市：北京"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp"
+            android:gravity="center"
+            />
+
+    </RelativeLayout>
 
 </RelativeLayout>
