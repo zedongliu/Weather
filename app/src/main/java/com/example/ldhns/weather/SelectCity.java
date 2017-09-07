@@ -2,6 +2,7 @@ package com.example.ldhns.weather;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,7 +34,7 @@ public class SelectCity extends Activity implements View.OnClickListener{
 
     private String updateCityCode="-1";
     @Override
-    protected void onCreate(Bundle saveInstanceState){
+    protected void onCreate(final Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
         setContentView(R.layout.select_city);
 
@@ -62,16 +63,27 @@ public class SelectCity extends Activity implements View.OnClickListener{
         adapter.notifyDataSetChanged();
         cityListLv.setAdapter(adapter);
 
+        final Intent intent = new Intent(this,MainActivity.class).setFlags(
+                Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         //添加ListView项的点击事件动作
-        //为组件绑定监听
-        cityListLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 updateCityCode = mCityList.get(position).getNumber();
-                //Toast.makeText(SelectCity.this,updateCityCode,Toast.LENGTH_LONG).show();
                 Log.d("update city code",updateCityCode);
+
+                //用Shareperference存储最近一次的citycode
+                SharedPreferences sharedPreferences = getSharedPreferences("CityCodePreference",Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("citycode",updateCityCode);
+                editor.commit();
+
+                intent.putExtra("citycode",updateCityCode);
+                startActivity(intent);
             }
-        });
+        };
+        //为组件绑定监听
+        cityListLv.setOnItemClickListener(itemClickListener);
     }
 
     @Override
@@ -84,8 +96,8 @@ public class SelectCity extends Activity implements View.OnClickListener{
                 startActivity(intent);
                 break;*/
             case R.id.selectcity_search_button:
-                String citycode = searchEt.getText().toString();
-                Log.d("Search",citycode);
+                String searchText = searchEt.getText().toString();
+                Log.d("Search",searchText);
 
                 ArrayList<String> mSearchList = new ArrayList<String>();
                  for(int i=0;i<mCityList.size();i++){
@@ -93,7 +105,7 @@ public class SelectCity extends Activity implements View.OnClickListener{
                      String number = mCityList.get(i).getNumber();
                      String provinceName = mCityList.get(i).getProvince();
                      String cityName = mCityList.get(i).getCity();
-                     if(number.equals(citycode)){
+                     if(number.contains(searchText) || cityName.contains(searchText) || provinceName.contains(searchText)){
                          mSearchList.add("No."+No_+":"+number+"-"+provinceName+"-"+cityName);
                          Log.d("changed adapter data","No."+No_+":"+number+"-"+provinceName+"-"+cityName);
                      }
@@ -104,7 +116,7 @@ public class SelectCity extends Activity implements View.OnClickListener{
 
 
                 /*Intent intent = new Intent(this,MainActivity.class);
-                intent.putExtra("citycode",citycode);
+                intent.putExtra("citycode",searchText);
                 startActivity(intent);*/
                 break;
             default:

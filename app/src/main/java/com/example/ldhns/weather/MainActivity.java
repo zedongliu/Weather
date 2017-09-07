@@ -2,6 +2,7 @@ package com.example.ldhns.weather;
 
 import android.app.Notification;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView PM25Img,weatherImg;
 
     void initView(){
+
         //title
         cityNameT = (TextView)findViewById(R.id.title_city_name);
 
@@ -109,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             Log.d("WEATHER", "已连接网络");
             Toast.makeText(MainActivity.this, "已连接网络", Toast.LENGTH_LONG).show();
-            getWeatherDatafromNet(updateCityCode);
+            //getWeatherDatafromNet("101010100");
 
         }
     }
@@ -117,6 +119,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v){
         if(v.getId() == R.id.title_city_update){
+
+            SharedPreferences mySharePre = getSharedPreferences("CityCodePreference",Activity.MODE_PRIVATE);
+            String sharecode = mySharePre.getString("citycode","");
+            if(!sharecode.equals("")){
+                Log.d("sharecode",sharecode);
+                getWeatherDatafromNet(sharecode);
+            }else {
+                getWeatherDatafromNet("101010100");
+            }
+
             getWeatherDatafromNet(updateCityCode);
             updateTodayWeather(todayWeather);
         }
