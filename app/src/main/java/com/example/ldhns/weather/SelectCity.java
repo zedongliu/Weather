@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -21,6 +23,8 @@ import java.util.List;
 public class SelectCity extends Activity implements View.OnClickListener{
     private ImageView backBtn;
     private ListView cityListLv;
+    private EditText searchEt;
+    private Button button;
 
     private List<City> mCityList;
     private MyApplication myApplication;
@@ -33,8 +37,12 @@ public class SelectCity extends Activity implements View.OnClickListener{
         super.onCreate(saveInstanceState);
         setContentView(R.layout.select_city);
 
-        backBtn = (ImageView)findViewById(R.id.title_selectCity_back);
-        backBtn.setOnClickListener(this);
+        //backBtn = (ImageView)findViewById(R.id.title_selectCity_back);
+        //backBtn.setOnClickListener(this);
+
+        searchEt = (EditText)findViewById(R.id.selectcity_search);
+        button  = (Button)findViewById(R.id.selectcity_search_button);
+        button.setOnClickListener(this);
 
         myApplication = (MyApplication)getApplication();
         mCityList = myApplication.getCityList();
@@ -69,11 +77,35 @@ public class SelectCity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v){
         switch (v.getId()){
-            case R.id.title_selectCity_back:
+           /* case R.id.title_selectCity_back:
                 //finish();
                 Intent intent = new Intent(this,MainActivity.class);
                 intent.putExtra("citycode",updateCityCode);
                 startActivity(intent);
+                break;*/
+            case R.id.selectcity_search_button:
+                String citycode = searchEt.getText().toString();
+                Log.d("Search",citycode);
+
+                ArrayList<String> mSearchList = new ArrayList<String>();
+                 for(int i=0;i<mCityList.size();i++){
+                     String No_ = Integer.toString(i+1);
+                     String number = mCityList.get(i).getNumber();
+                     String provinceName = mCityList.get(i).getProvince();
+                     String cityName = mCityList.get(i).getCity();
+                     if(number.equals(citycode)){
+                         mSearchList.add("No."+No_+":"+number+"-"+provinceName+"-"+cityName);
+                         Log.d("changed adapter data","No."+No_+":"+number+"-"+provinceName+"-"+cityName);
+                     }
+                     adapter = new ArrayAdapter<String>(SelectCity.this,R.layout.list_item,mSearchList);
+                     cityListLv.setAdapter(adapter);
+                     adapter.notifyDataSetChanged();
+                 }
+
+
+                /*Intent intent = new Intent(this,MainActivity.class);
+                intent.putExtra("citycode",citycode);
+                startActivity(intent);*/
                 break;
             default:
                 break;
