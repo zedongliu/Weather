@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 public class Guide extends Activity implements ViewPager.OnPageChangeListener{
-    private List<View>views;
+    private List<View> views;
     private ViewPagerAdapter viewPagerAdapter;
     private ViewPager viewPager;
 
@@ -29,12 +29,13 @@ public class Guide extends Activity implements ViewPager.OnPageChangeListener{
 
     private ImageView[] dots;
     private int[] id={R.id.pointImg1,R.id.pointImg2,R.id.pointImg3};
-
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guide);
 
+/*
+        // 安装APP后第一次启动，进入导航页
         SharedPreferences sharedPreferences = getSharedPreferences("viewpagedate",Activity.MODE_PRIVATE);
         if(sharedPreferences.getInt("time",0)==8)//
         {
@@ -46,29 +47,29 @@ public class Guide extends Activity implements ViewPager.OnPageChangeListener{
             editor.putInt("time", 8);//0
             editor.commit();
         }
+*/
 
         initViews();
         initDots();
-
         startB = (Button)views.get(2).findViewById(R.id.startAppBtn);
         startB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Guide.this, MainActivity.class);
+                Intent intent = new Intent(Guide.this,MainActivity.class);
                 startActivity(intent);
                 finish();
             }
         });
     }
-
-    private void initViews(){
+    private void initViews()
+    {
         LayoutInflater lf = LayoutInflater.from(this);
         views = new ArrayList<View>();
         views.add(lf.inflate(R.layout.guide_page01,null));
         views.add(lf.inflate(R.layout.guide_page02,null));
         views.add(lf.inflate(R.layout.guide_page03,null));
 
-        viewPagerAdapter = new ViewPagerAdapter(views,this );
+        viewPagerAdapter = new ViewPagerAdapter(views,this);
         viewPager = (ViewPager)findViewById(R.id.viewpager);
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOnPageChangeListener(this);
