@@ -34,7 +34,7 @@ public class Guide extends Activity implements ViewPager.OnPageChangeListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guide);
 
-/*
+
         // 安装APP后第一次启动，进入导航页
         SharedPreferences sharedPreferences = getSharedPreferences("viewpagedate",Activity.MODE_PRIVATE);
         if(sharedPreferences.getInt("time",0)==8)//
@@ -47,7 +47,7 @@ public class Guide extends Activity implements ViewPager.OnPageChangeListener{
             editor.putInt("time", 8);//0
             editor.commit();
         }
-*/
+
 
         initViews();
         initDots();

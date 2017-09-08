@@ -11,18 +11,18 @@
         android:orientation="vertical"
         android:gravity="center">
 
-        <TextView
-            android:id="@+id/textView"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:text="定位到" />
+            android:src="@drawable/locate"/>
+
 
         <Button
-            android:id="@+id/button"
+            android:layout_marginTop="20dp"
+            android:id="@+id/bdmap_cityname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             android:text="城市名" />
     </LinearLayout>
 

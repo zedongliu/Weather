@@ -27,85 +27,28 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    private String updateCityCode;
+public class MainActivity extends Activity implements View.OnClickListener{
+    private String updateCityCode = "-1";
     TodayWeather todayWeather = null;
-    //title
+    //tile
     private ImageView UpdateBtn;
     private ImageView SelectCityBtn;
+    private ImageView LocateBtn;
+
     //todayweather
-    private TextView cityT,timeT,humidityT,weekT,pmDataT,pmQualityT,temperatureT,climateT,windT,cityNameT;
+    private TextView cityT,timeT,humidityT,weekT,pmDataT,pmQualityT,temperatureT,
+            climateT,windT,cityNameT;
     private ImageView PM25Img,weatherImg;
     //future
-    private  TextView week1T,week2T,week3T,temperature1T,temperature2T,temperature3T,climate1T,climate2T,climate3T,wind1T,wind2T,wind3T;
+    private  TextView week1T,week2T,week3T,temperature1T,temperature2T,temperature3T,
+            wind1T,wind2T,wind3T,climate1T,climate2T,climate3T;
 
-    void initView(){
-
-        //title
-        cityNameT = (TextView)findViewById(R.id.title_city_name);
-
-        //today weather
-        cityT =(TextView)findViewById(R.id.todayinfo1_cityName);
-        cityT = (TextView)findViewById(R.id.todayinfo1_cityName);
-        timeT = (TextView)findViewById(R.id.todayinfo1_updateTime);
-        humidityT = (TextView)findViewById(R.id.todayinfo1_humidity);
-        weekT = (TextView)findViewById(R.id.todayinfo2_week);
-        pmDataT = (TextView)findViewById(R.id.todayinfo1_pm25);
-        pmQualityT = (TextView)findViewById(R.id.todayinfo1_pm25status);
-        temperatureT = (TextView)findViewById(R.id.todayinfo2_temperature);
-        climateT = (TextView)findViewById(R.id.todayinfo2_weatherState);
-        windT = (TextView)findViewById(R.id.todayinfo2_wind);
-
-        weatherImg = (ImageView)findViewById(R.id.todayinfo2_weatherStatusImg);
-        PM25Img = (ImageView)findViewById(R.id.todayinfo1_pm25img);
-
-        //future
-        week1T = (TextView)findViewById(R.id.future_no1_week);
-        temperature1T = (TextView)findViewById(R.id.future_no1_temperature);
-        climate1T = (TextView)findViewById(R.id.future_no1_weatherState);
-        wind1T = (TextView)findViewById(R.id.future_no1_wind);
-
-        week2T = (TextView)findViewById(R.id.future_no2_week);
-        temperature2T = (TextView)findViewById(R.id.future_no2_temperature);
-        climate2T = (TextView)findViewById(R.id.future_no2_weatherState);
-        wind2T = (TextView)findViewById(R.id.future_no2_wind);
-
-        week3T = (TextView)findViewById(R.id.future_no3_week);
-        temperature3T = (TextView)findViewById(R.id.future_no3_temperature);
-        climate3T = (TextView)findViewById(R.id.future_no3_weatherState);
-        wind3T = (TextView)findViewById(R.id.future_no3_wind);
-
-        cityNameT.setText("N/A");
-
-        cityT.setText("N/A");
-        timeT.setText("N/A");
-        humidityT.setText("N/A");
-        weekT.setText("N/A");
-        pmDataT.setText("N/A");
-        pmQualityT.setText("N/A");
-        temperatureT.setText("N/A");
-        climateT.setText("N/A");
-        windT.setText("N/A");
-
-        week1T.setText("N/A");
-        temperature1T.setText("N/A");
-        climate1T.setText("N/A");
-        wind1T.setText("N/A");
-
-        week2T.setText("N/A");
-        temperature2T.setText("N/A");
-        climate2T.setText("N/A");
-        wind2T.setText("N/A");
-
-        week3T.setText("N/A");
-        temperature3T.setText("N/A");
-        climate3T.setText("N/A");
-        wind3T.setText("N/A");
-    }
-
-    private Handler mHandler = new Handler(){
-        public void handlerMessage(android.os.Message message){
-            switch (message.what){
+    private Handler mHandler = new Handler()
+    {
+        public void handleMessage(android.os.Message message)
+        {
+            switch (message.what)
+            {
                 case 1:
                     updateTodayWeather((TodayWeather) message.obj);
                     break;
@@ -114,104 +57,131 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     };
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.d("MainActivity","onCreate");
         setContentView(R.layout.activity_main);
 
-        UpdateBtn = (ImageView)findViewById(R.id.title_city_update);
+
+
+        UpdateBtn = (ImageView)findViewById(R.id.title_city_update);;
         UpdateBtn.setOnClickListener(this);
 
         SelectCityBtn = (ImageView)findViewById(R.id.title_city_manager);
         SelectCityBtn.setOnClickListener(this);
 
+        LocateBtn = (ImageView)findViewById(R.id.title_city_locate);
+        LocateBtn.setOnClickListener(this);
 
-
-        updateCityCode = getIntent().getStringExtra("citycode");
-        if(updateCityCode!="-1"){
-            getWeatherDatafromNet(updateCityCode);
-
-        }
         initView();
 
+        updateCityCode = getIntent().getStringExtra("citycode");
+        if(updateCityCode!="-1"&& updateCityCode != null)
+        {
+            getWeatherDatafromNet(updateCityCode);
+        }else
+        {
+            SharedPreferences sharedPreferences = getSharedPreferences(
+                    "CityCodePreference",Activity.MODE_PRIVATE);
+            String defaultCityCode = sharedPreferences.getString("citycode","");
+            if(defaultCityCode!=null){
+                Log.d("defaultCityCode",defaultCityCode);
+                getWeatherDatafromNet(defaultCityCode);
+            }
+
+        }
+
         //检查网络连接状态
-        if (CheckNet.getNetState(this) == CheckNet.NET_NONE) {
-            Log.d("WEATHER", "网络不通");
-            Toast.makeText(MainActivity.this, "网络不通", Toast.LENGTH_LONG).show();
-        } else {
-            Log.d("WEATHER", "已连接网络");
-            Toast.makeText(MainActivity.this, "已连接网络", Toast.LENGTH_LONG).show();
-            //getWeatherDatafromNet("101010100");
+        if(CheckNet.getNetState(this)==CheckNet.NET_NONE)
+        {
+            Log.d("MWEATHER","网络不通");
+            Toast.makeText(MainActivity.this,"网络不通",Toast.LENGTH_LONG).show();
+        }else
+        {
+            Log.d("MWEATHER","网络OK");
+            Toast.makeText(MainActivity.this,"网络OK",Toast.LENGTH_LONG).show();
 
         }
     }
 
     @Override
-    public void onClick(View v){
-        if(v.getId() == R.id.title_city_update){
-
+    public void onClick(View v) {
+        if(v.getId()==R.id.title_city_update)
+        {
             SharedPreferences mySharePre = getSharedPreferences("CityCodePreference",Activity.MODE_PRIVATE);
             String sharecode = mySharePre.getString("citycode","");
-            if(!sharecode.equals("")){
+            if(!sharecode.equals(""))
+            {
                 Log.d("sharecode",sharecode);
                 getWeatherDatafromNet(sharecode);
             }else {
                 getWeatherDatafromNet("101010100");
             }
-
-            getWeatherDatafromNet(updateCityCode);
-            updateTodayWeather(todayWeather);
         }
-        if(v.getId() == R.id.title_city_manager){
+        if(v.getId()==R.id.title_city_manager)
+        {
             Intent intent = new Intent(this,SelectCity.class);
+            startActivity(intent);
+        }
+
+        if(v.getId()== R.id.title_city_locate){
+//            Locate mLocation = new Locate(this);
+//            mLocation.startLocation();
+            Log.d("click","title_city_locate");
+            Intent intent = new Intent(this,Locate.class);
             startActivity(intent);
         }
     }
 
-
-    private void getWeatherDatafromNet(String cityCode){
+    //获取网页信息 response
+    private void getWeatherDatafromNet(String cityCode)
+    {
         final String address = "http://wthrcdn.etouch.cn/WeatherApi?citykey="+cityCode;
-        Log.d("Address",address);
+        Log.d("Address:",address);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                HttpURLConnection urlConnection =null;
-                try{
+                HttpURLConnection urlConnection = null;
+                try {
                     URL url = new URL(address);
                     urlConnection = (HttpURLConnection) url.openConnection();
                     urlConnection.setRequestMethod("GET");
                     urlConnection.setConnectTimeout(8000);
                     urlConnection.setReadTimeout(8000);
-                    InputStream in =urlConnection.getInputStream();
+                    InputStream in = urlConnection.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                     StringBuffer sb = new StringBuffer();
                     String str;
-
-                    while((str=reader.readLine())!=null){
+                    while((str=reader.readLine())!=null)
+                    {
                         sb.append(str);
                         Log.d("date from url",str);
                     }
                     String response = sb.toString();
                     Log.d("response",response);
                     todayWeather = parseXML(response);
-                    if(todayWeather != null){
+                    if(todayWeather!=null)
+                    {
+                        //Log.d("todayWeatherDate",todayWeather.toString());
+
                         Message message = new Message();
                         message.what = 1;
                         message.obj = todayWeather;
                         mHandler.sendMessage(message);
                     }
-                }catch (Exception e){
+                }catch (Exception e)
+                {
                     e.printStackTrace();
                 }
             }
         }).start();
     }
 
-    private TodayWeather parseXML(String xmlData) {
-       // TodayWeather todayWeather = null;
+    private TodayWeather parseXML(String xmlData)
+    {
+        TodayWeather todayWeather = null;
 
         int fengliCount = 0;
         int fengxiangCount = 0;
@@ -227,8 +197,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int eventType = xmlPullParser.getEventType();
             Log.d("MWeater","start parse xml");
 
-            while(eventType!=xmlPullParser.END_DOCUMENT) {
-                switch (eventType) {
+            while(eventType!=xmlPullParser.END_DOCUMENT)
+            {
+                switch (eventType)
+                {
                     //文档开始位置
                     case XmlPullParser.START_DOCUMENT:
                         Log.d("parse","start doc");
@@ -377,15 +349,77 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 eventType=xmlPullParser.next();
             }
-        }catch (Exception e) {
+        }catch (Exception e)
+        {
             e.printStackTrace();
         }
         return todayWeather;
     }
 
+    void initView()
+    {
+        //title
+        cityNameT = (TextView)findViewById(R.id.title_city_name);
 
+        //today weather
+        cityT = (TextView)findViewById(R.id.todayinfo1_cityName);
+        timeT = (TextView)findViewById(R.id.todayinfo1_updateTime);
+        humidityT = (TextView)findViewById(R.id.todayinfo1_humidity);
+        weekT = (TextView)findViewById(R.id.todayinfo2_week);
+        pmDataT = (TextView)findViewById(R.id.todayinfo1_pm25);
+        pmQualityT = (TextView)findViewById(R.id.todayinfo1_pm25status);
+        temperatureT = (TextView)findViewById(R.id.todayinfo2_temperature);
+        climateT = (TextView)findViewById(R.id.todayinfo2_weatherState);
+        windT = (TextView)findViewById(R.id.todayinfo2_wind);
 
-    void updateTodayWeather(TodayWeather todayWeather){
+        weatherImg = (ImageView)findViewById(R.id.todayinfo2_weatherStatusImg);
+        PM25Img = (ImageView)findViewById(R.id.todayinfo1_pm25img);
+
+        //future
+        week1T = (TextView)findViewById(R.id.future_no1_week);
+        temperature1T = (TextView)findViewById(R.id.future_no1_temperature);
+        climate1T = (TextView)findViewById(R.id.future_no1_weatherState);
+        wind1T = (TextView)findViewById(R.id.future_no1_wind);
+
+        week2T = (TextView)findViewById(R.id.future_no2_week);
+        temperature2T = (TextView)findViewById(R.id.future_no2_temperature);
+        climate2T = (TextView)findViewById(R.id.future_no2_weatherState);
+        wind2T = (TextView)findViewById(R.id.future_no2_wind);
+
+        week3T = (TextView)findViewById(R.id.future_no3_week);
+        temperature3T = (TextView)findViewById(R.id.future_no3_temperature);
+        climate3T = (TextView)findViewById(R.id.future_no3_weatherState);
+        wind3T = (TextView)findViewById(R.id.future_no3_wind);
+
+        cityNameT.setText("N/A");
+
+        cityT.setText("N/A");
+        timeT.setText("N/A");
+        humidityT.setText("N/A");
+        weekT.setText("N/A");
+        pmDataT.setText("N/A");
+        pmQualityT.setText("N/A");
+        temperatureT.setText("N/A");
+        climateT.setText("N/A");
+        windT.setText("N/A");
+
+        week1T.setText("N/A");
+        temperature1T.setText("N/A");
+        climate1T.setText("N/A");
+        wind1T.setText("N/A");
+
+        week2T.setText("N/A");
+        temperature2T.setText("N/A");
+        climate2T.setText("N/A");
+        wind2T.setText("N/A");
+
+        week3T.setText("N/A");
+        temperature3T.setText("N/A");
+        climate3T.setText("N/A");
+        wind3T.setText("N/A");
+    }
+    void updateTodayWeather(TodayWeather todayWeather)
+    {
         cityNameT.setText(todayWeather.getCity()+"天气");
         cityT.setText(todayWeather.getCity());
         timeT.setText(todayWeather.getUpdatetime());
@@ -396,7 +430,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         temperatureT.setText(todayWeather.getHigh()+"~"+todayWeather.getLow());
         climateT.setText(todayWeather.getType());
         windT.setText("风力:"+todayWeather.getFengli());
-
 
         week1T.setText(todayWeather.getDate1());
         week2T.setText(todayWeather.getDate2());
@@ -410,6 +443,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         wind1T.setText(todayWeather.getFengli1());
         wind2T.setText(todayWeather.getFengli2());
         wind3T.setText(todayWeather.getFengli3());
+
 
         if(todayWeather.getPm25()!=null) {
             int pm25 = Integer.parseInt(todayWeather.getPm25());
@@ -492,8 +526,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
             }
         }
-
         Toast.makeText(MainActivity.this,"更新成功",Toast.LENGTH_SHORT).show();
     }
-
 }
