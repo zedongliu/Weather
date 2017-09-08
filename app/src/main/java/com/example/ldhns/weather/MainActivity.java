@@ -97,11 +97,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
         if(CheckNet.getNetState(this)==CheckNet.NET_NONE)
         {
             Log.d("MWEATHER","网络不通");
-            Toast.makeText(MainActivity.this,"网络不通",Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this,"网络连接失败",Toast.LENGTH_LONG).show();
         }else
         {
             Log.d("MWEATHER","网络OK");
-            Toast.makeText(MainActivity.this,"网络OK",Toast.LENGTH_LONG).show();
+            //Toast.makeText(MainActivity.this,"网络OK",Toast.LENGTH_LONG).show();
 
         }
     }

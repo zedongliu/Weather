@@ -43,18 +43,19 @@
            android:layout_height="30.0dp"
            android:layout_width="45.0dp"
            android:layout_centerVertical="true"
+           android:layout_alignParentRight="true"
            android:layout_toLeftOf="@+id/title_city_share"
 
            android:src="@drawable/title_city_update">
        </ImageView>
-       <ImageView
+       <!--<ImageView
            android:id="@+id/title_city_share"
            android:layout_height="30.0dp"
            android:layout_width="45.0dp"
            android:layout_centerVertical="true"
            android:layout_alignParentRight="true"
            android:src="@drawable/title_city_share">
-       </ImageView>
+       </ImageView>-->
    </RelativeLayout>
 
     <RelativeLayout
