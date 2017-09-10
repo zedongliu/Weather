@@ -43,6 +43,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private  TextView week1T,week2T,week3T,temperature1T,temperature2T,temperature3T,
             wind1T,wind2T,wind3T,climate1T,climate2T,climate3T;
 
+    //handler启动更新
     private Handler mHandler = new Handler()
     {
         public void handleMessage(android.os.Message message)
@@ -63,8 +64,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
         Log.d("MainActivity","onCreate");
         setContentView(R.layout.activity_main);
-
-
 
         UpdateBtn = (ImageView)findViewById(R.id.title_city_update);;
         UpdateBtn.setOnClickListener(this);
